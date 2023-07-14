@@ -32,4 +32,9 @@ public class BookController {
     public ResponseEntity<Book> getBookById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(bookService.findByID(id), HttpStatus.OK);
     }
+
+    @PutMapping({"{id}"})
+    public ResponseEntity<Book> updateBookById(@PathVariable("id") long id, @RequestBody Book book) {
+        return new ResponseEntity<>(bookService.updateBook(book, id), HttpStatus.OK);
+    }
 }
