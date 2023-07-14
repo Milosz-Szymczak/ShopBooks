@@ -1,0 +1,23 @@
+package pl.milosz.shopbooks.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.milosz.shopbooks.model.Book;
+import pl.milosz.shopbooks.service.BookService;
+
+@RestController
+@RequestMapping("/api/books")
+public class BookController {
+
+    private BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @PostMapping()
+    public ResponseEntity<Book> saveBook(@RequestBody Book book) {
+        return new ResponseEntity<Book>(bookService.saveBook(book), HttpStatus.CREATED);
+    }
+}
