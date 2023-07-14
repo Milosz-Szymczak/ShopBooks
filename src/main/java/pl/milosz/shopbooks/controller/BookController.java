@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.milosz.shopbooks.model.Book;
 import pl.milosz.shopbooks.service.BookService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -16,8 +18,13 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<Book> saveBook(@RequestBody Book book) {
         return new ResponseEntity<Book>(bookService.saveBook(book), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooks();
     }
 }
