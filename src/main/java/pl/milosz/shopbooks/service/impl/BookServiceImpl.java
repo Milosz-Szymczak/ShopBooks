@@ -1,5 +1,6 @@
 package pl.milosz.shopbooks.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.milosz.shopbooks.exception.ResourceNotFoundException;
 import pl.milosz.shopbooks.model.Book;
@@ -12,6 +13,7 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
+
 
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -27,7 +29,6 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    @Override
     public Book findByID(long id) {
         return bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Book", "Id", id));
