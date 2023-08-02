@@ -1,9 +1,11 @@
 package pl.milosz.shopbooks.repository;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import pl.milosz.shopbooks.exception.ResourceNotFoundException;
 import pl.milosz.shopbooks.model.Book;
 
 import java.util.List;
@@ -63,10 +65,10 @@ public class BookRepositoryTest {
         bookRepository.save(book2);
 
         //when
-        Optional<Book> BookByID = bookRepository.findById(2L);
+        Optional<Book> bookByID = bookRepository.findById(book2.getId());
 
         //then
-        Assertions.assertThat(BookByID).isPresent();
+        Assertions.assertThat(bookByID).isPresent();
       //System.out.println(BookByID.get());
     }
 }
