@@ -1,6 +1,5 @@
 package pl.milosz.shopbooks.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.milosz.shopbooks.exception.ResourceNotFoundException;
 import pl.milosz.shopbooks.model.Book;
@@ -12,7 +11,7 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
 
     public BookServiceImpl(BookRepository bookRepository) {
