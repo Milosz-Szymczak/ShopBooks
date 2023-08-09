@@ -16,6 +16,7 @@ import pl.milosz.shopbooks.service.BookService;
 
 import java.util.List;
 
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = BookController.class)
@@ -97,6 +98,13 @@ class BookControllerTest {
     }
 
     @Test
-    void DeleteBookById_CheckStatusAndJSONPatch_returnCreated() {
+    void DeleteBookById_CheckStatus_returnVoid() throws Exception {
+        long bookId = 1L;
+
+        doNothing().when(bookService).deleteBook(1L);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/books/{id}", bookId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
