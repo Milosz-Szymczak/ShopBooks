@@ -64,7 +64,18 @@ class BookControllerTest {
     }
 
     @Test
-    void GetBookById_CheckStatusAndJSONPatch_returnCreated() {
+    void GetBookById_CheckStatusAndJSONPatch_returnStatusIsOk() throws Exception {
+        Book book = Book.builder().id(1L).name("Clean Code").author("Martin Robert C.")
+                .kind("Computer Science").releaseDate("2009-03-01").isbn(9780132350884L).build();
+
+        when(bookService.findByID(1L)).thenReturn(book);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(book)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Clean Code"));
     }
 
     @Test
