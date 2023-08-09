@@ -3,6 +3,7 @@ package pl.milosz.shopbooks.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -79,7 +80,20 @@ class BookControllerTest {
     }
 
     @Test
-    void UpdateBookById_CheckStatusAndJSONPatch_returnCreated() {
+    void UpdateBookById_CheckStatusAndJSONPatch_returnUpdatedData() throws Exception {
+        long bookId = 1L;
+
+        Book updatedBook = Book.builder().id(1L).name("a").author("a")
+                .kind("a").releaseDate("2001-03-01").isbn(32884L).build();
+
+        when(bookService.updateBook(Mockito.any(Book.class), Mockito.eq(bookId))).thenReturn(updatedBook);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/books/{id}", bookId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedBook)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(bookId))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("a"));
     }
 
     @Test
